@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:51:24 by hakader           #+#    #+#             */
-/*   Updated: 2025/06/27 13:55:42 by hakader          ###   ########.fr       */
+/*   Updated: 2025/06/27 14:40:13 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,12 @@ typedef struct s_game
 	int		row;
 	int		column;
 	char	**map;
+	char	*NO;
+	char	*SO;
+	char	*WE;
+	char	*EA;
+	char	*F;
+	char	*C;
 	char	**copy;
 }	t_game;
 

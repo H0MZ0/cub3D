@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 10:17:49 by hakader           #+#    #+#             */
-/*   Updated: 2025/06/27 14:06:24 by hakader          ###   ########.fr       */
+/*   Updated: 2025/06/27 14:43:22 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,41 @@ void	read_map(t_cub *cub, char *map, t_list *alloc)
 	}
 }
 
+void	split_textures(t_cub *cub, t_list *alloc)
+{
+	int	i;
+
+	i = 0;
+	while (cub->game.map[i])
+	{
+		if (ft_strncmp("NO ", cub->game.map[i], 3) == 0)
+			cub->game.NO = ft_substr(cub->game.map[i], 3, ft_strlen(cub->game.map[i]), alloc);
+		else if (ft_strncmp("SO ", cub->game.map[i], 3) == 0)
+			cub->game.SO = ft_substr(cub->game.map[i], 3, ft_strlen(cub->game.map[i]), alloc);
+		else if (ft_strncmp("WE ", cub->game.map[i], 3) == 0)
+			cub->game.WE = ft_substr(cub->game.map[i], 3, ft_strlen(cub->game.map[i]), alloc);
+		else if (ft_strncmp("EA ", cub->game.map[i], 3) == 0)
+			cub->game.EA = ft_substr(cub->game.map[i], 3, ft_strlen(cub->game.map[i]), alloc);
+		else if (ft_strncmp("F ", cub->game.map[i], 2) == 0)
+			cub->game.F = ft_substr(cub->game.map[i], 2, ft_strlen(cub->game.map[i]), alloc);
+		else if (ft_strncmp("C ", cub->game.map[i], 2) == 0)
+			cub->game.C = ft_substr(cub->game.map[i], 2, ft_strlen(cub->game.map[i]), alloc);
+		i++;
+	}
+} 
+
 void	map_filter(t_cub cub, char *map, t_list *alloc)
 {
 	ft_bzero(&cub, sizeof(t_cub));
 	read_map(&cub, map, alloc);
+	split_textures(&cub, alloc);
+	// print_map(&cub);
+	printf("%s\n", cub.game.NO);
+	printf("%s\n", cub.game.SO);
+	printf("%s\n", cub.game.WE);
+	printf("%s\n", cub.game.EA);
+	printf("%s\n", cub.game.F);
+	printf("%s\n", cub.game.C);
 	
 }
 
