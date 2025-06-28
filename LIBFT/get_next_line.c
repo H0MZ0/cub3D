@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 10:06:13 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/06/16 15:06:21 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/06/28 16:28:11 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,6 @@ char	*get_next_line(int fd, t_list *alloc_list)
 	if (new_line_index >= 0)
 		return (process_line(&full_buff, new_line_index, alloc_list));
 	line = ft_strdup(full_buff, alloc_list);
+	full_buff = NULL;
 	return (line);
 }
