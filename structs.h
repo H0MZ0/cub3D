@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:51:24 by hakader           #+#    #+#             */
-/*   Updated: 2025/06/28 15:58:46 by hakader          ###   ########.fr       */
+/*   Updated: 2025/06/29 15:15:21 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ typedef struct s_game
 
 typedef struct s_color
 {
+	char	**f_colors;
+	char	**c_colors;
 	char	*F;
 	int		F_red;
 	int		F_green;

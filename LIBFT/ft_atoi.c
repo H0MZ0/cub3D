@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 18:12:11 by hakader           #+#    #+#             */
-/*   Updated: 2025/06/02 20:45:07 by hakader          ###   ########.fr       */
+/*   Updated: 2025/06/30 15:27:30 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,18 @@
 
 void	exit_error(const char *str, t_list *alloc_list)
 {
-	ft_putstr_fd("minishell:", 2);
-	ft_putstr_fd("exit: ", 2);
+	ft_putstr_fd("Error\nInvalid color ->{", 2);
 	ft_putstr_fd((char *)str, 2);
-	ft_putstr_fd(": numeric argument required\n", 2);
+	ft_putendl_fd("}", 2);
 	free_all(&alloc_list);
-	exit(EXIT_INVALID_ARGS);
+	exit(1);
+}
+
+int	skip(const char *str, int start)
+{
+	while ((str[start] >= 9 && str[start] <= 13) || str[start] == 32)
+		start++;
+	return (start);
 }
 
 long	ft_atoi(const char *str, t_list *alloc_list)
@@ -31,13 +37,8 @@ long	ft_atoi(const char *str, t_list *alloc_list)
 	sign = 1;
 	result = 0;
 	if (!str)
-		return (0);
-	if (str[i] == '+' || str[i] == '-')
-	{
-		if (str[i] == '-')
-			sign *= -1;
-		i++;
-	}
+		exit_error(str, alloc_list);
+	i = skip(str, i);
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		if (result > ((LONG_MAX - (str[i] - '0')) / 10))
@@ -45,6 +46,7 @@ long	ft_atoi(const char *str, t_list *alloc_list)
 		result = result * 10 + (str[i] - 48);
 		i++;
 	}
+	i = skip(str, i);
 	result = (long)result;
 	if (str[i])
 		exit_error(str, alloc_list);

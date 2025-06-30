@@ -1,14 +1,14 @@
 CC = cc
 # CFLAGS = -Wall -Wextra -Werror
 
-NAME = Cub3D
+NAME = cub3D
 
 # Libft
 LIBFT_DIR = LIBFT
 LIBFT_A = $(LIBFT_DIR)/libft.a
 
 # Sources and objects
-SRC = main.c
+SRC = main.c tools1.c
 OBJ = $(SRC:.c=.o)
 
 all: $(LIBFT_A) $(NAME)

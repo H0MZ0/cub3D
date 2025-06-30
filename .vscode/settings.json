@@ -1,5 +1,7 @@
 {
 	"files.associations": {
-		"cub.h": "c"
+		"cub.h": "c",
+		"random": "c",
+		"libft.h": "c"
 	}
 }

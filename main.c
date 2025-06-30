@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 10:17:49 by hakader           #+#    #+#             */
-/*   Updated: 2025/06/28 16:34:31 by hakader          ###   ########.fr       */
+/*   Updated: 2025/06/30 16:38:52 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,19 +98,164 @@ void	count_things(t_cub *cub, t_list *alloc)
 		put_error("not good", alloc);
 }
 
-void	init_all(t_cub *cub)
+void	get_colors(t_cub *cub, int line, int start, t_list *alloc)
 {
-	ft_bzero(&cub->axis, sizeof(t_axis));
-	ft_bzero(&cub->clr, sizeof(t_color));
-	ft_bzero(&cub->game, sizeof(t_game));
-	ft_bzero(&cub->keys, sizeof(t_keys));
-	ft_bzero(&cub->textutes, sizeof(t_textures));
-	ft_bzero(cub, sizeof(t_cub));
+	int	i;
+
+	i = 0;
+	if (cub->game.map[line][start] == 'C' && is_whitespace(cub->game.map[line][start + 1]))
+	{
+		i = skip_whitespaces(cub, line, start + 1);
+		cub->clr.C = ft_strdup(&cub->game.map[line][i], alloc);
+	}
+	else if (cub->game.map[line][start] == 'F' && is_whitespace(cub->game.map[line][start + 1]))
+	{
+		i = skip_whitespaces(cub, line, start + 1);
+		cub->clr.F = ft_strdup(&cub->game.map[line][i], alloc);
+	}
 }
+
+void	get_values(t_cub *cub, int line, int start, t_list *alloc)
+{
+	int	i;
+
+	i = 0;
+	printf("{{%c%c}}\n", cub->game.map[line][start], cub->game.map[line][start + 1]);
+	if (cub->game.map[line][start] == 'N' && cub->game.map[line][start + 1] == 'O' && is_whitespace(cub->game.map[line][start + 2]))
+	{
+		i = skip_whitespaces(cub, line, start + 2);
+		cub->textutes.NO = ft_strdup(&cub->game.map[line][i], alloc);
+	}
+	else if (cub->game.map[line][start] == 'S' && cub->game.map[line][start + 1] == 'O' && is_whitespace(cub->game.map[line][start + 2]))
+	{
+		i = skip_whitespaces(cub, line, start + 2);
+		cub->textutes.SO = ft_strdup(&cub->game.map[line][i], alloc);
+	}
+	else if (cub->game.map[line][start] == 'W' && cub->game.map[line][start + 1] == 'E' && is_whitespace(cub->game.map[line][start + 2]))
+	{
+		i = skip_whitespaces(cub, line, start + 2);
+		cub->textutes.WE = ft_strdup(&cub->game.map[line][i], alloc);
+	}
+	else if (cub->game.map[line][start] == 'E' && cub->game.map[line][start + 1] == 'A' && is_whitespace(cub->game.map[line][start + 2]))
+	{
+		i = skip_whitespaces(cub, line, start + 2);
+		cub->textutes.EA = ft_strdup(&cub->game.map[line][i], alloc);
+	}
+	else
+		get_colors(cub, line, start, alloc);
+}
+
+void	clean_map(t_cub *cub, t_list *alloc)
+{
+	int (start), (line);
+	line = 0;
+	while (cub->game.map && cub->game.map[line])
+	{
+		start = skip_whitespaces(cub, line, 0);
+		// while (cub->game.map[line][start])
+		// {
+		// 	if ((cub->game.map[line][start] >= 9 && cub->game.map[line][start] <= 13)
+		// 		|| cub->game.map[line][start] == 32)
+		// 		start++;
+		// 	else
+				get_values(cub, line, start, alloc);
+			// start++;
+		// }
+		line++;
+	}
+}
+
+char	*whitespaces_remover(char *data, t_list *alloc)
+{
+	int	index;
+
+	index = ft_strlen(data) - 1;
+	while (index > 0 && is_whitespace(data[index]))
+		index--;
+	data = ft_substr(data, 0, index + 1, alloc);
+	return (data);
+}
+
+void	whitespaces_handler(t_cub *cub, t_list *alloc)
+{
+	cub->textutes.SO = whitespaces_remover(cub->textutes.SO, alloc);
+	cub->textutes.NO = whitespaces_remover(cub->textutes.NO, alloc);
+	cub->textutes.EA = whitespaces_remover(cub->textutes.EA, alloc);
+	cub->textutes.WE = whitespaces_remover(cub->textutes.WE, alloc);
+	cub->clr.C = whitespaces_remover(cub->clr.C, alloc);
+	cub->clr.F = whitespaces_remover(cub->clr.F, alloc);
+}
+
+void	check_colors(t_cub *cub, t_list *alloc)
+{
+	if (cub->clr.F_red < 0 || cub->clr.F_red > 255)
+		put_error("Error\nColor not valid!", alloc);
+	if (cub->clr.F_green < 0 || cub->clr.F_green > 255)
+		exit_error("Error\nColor not valid!", alloc);
+	if (cub->clr.F_blue < 0 || cub->clr.F_blue > 255)
+		put_error("Error\nColor not valid!", alloc);
+	if (cub->clr.C_red < 0 || cub->clr.C_red > 255)
+		put_error("Error\nColor not valid!", alloc);
+	if (cub->clr.C_green < 0 || cub->clr.C_green > 255)
+		put_error("Error\nColor not valid!", alloc);
+	if (cub->clr.C_blue < 0 || cub->clr.C_blue > 255)
+		put_error("Error\nColor not valid!", alloc);
+}
+
+int	count_commas(char *data)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 1;
+	while (data[i])
+	{
+		if (data[i] == ',')
+			count++;
+		i++;
+	}
+	return (count);
+}
+
+void	rgb_colors(t_cub *cub, t_list *alloc)
+{
+	if (count_commas(cub->clr.C) > 3 || count_commas(cub->clr.F) > 3)
+		put_error("a lot of colors", alloc);
+	cub->clr.f_colors = ft_split(cub->clr.F, ',', alloc);
+	cub->clr.c_colors = ft_split(cub->clr.C, ',', alloc);
+	cub->clr.F_red = ft_atoi(cub->clr.f_colors[0], alloc);
+	cub->clr.F_green = ft_atoi(cub->clr.f_colors[1], alloc);
+	cub->clr.F_blue = ft_atoi(cub->clr.f_colors[2], alloc);
+	cub->clr.C_red = ft_atoi(cub->clr.c_colors[0], alloc);
+	cub->clr.C_green = ft_atoi(cub->clr.c_colors[1], alloc);
+	cub->clr.C_blue = ft_atoi(cub->clr.c_colors[2], alloc);
+	check_colors(cub, alloc);
+}
+
+
 
 void	check_map(t_cub *cub, t_list *alloc)
 {
 	count_things(cub, alloc);
+	clean_map(cub, alloc);
+	whitespaces_handler(cub, alloc);
+	rgb_colors(cub, alloc);
+
+	printf("F_red: {{%d}}\n", cub->clr.F_red);
+	printf("F_green: {{%d}}\n", cub->clr.F_green);
+	printf("F_blue: {{%d}}\n", cub->clr.F_blue);
+	printf("C_red: {{%d}}\n", cub->clr.C_red);
+	printf("C_green: {{%d}}\n", cub->clr.C_green);
+	printf("C_blue: {{%d}}\n", cub->clr.C_blue);
+
+	// printf("cub->textutes.SO=((%s))\n", cub->textutes.SO);
+	// printf("cub->textutes.NO=((%s))\n", cub->textutes.NO);
+	// printf("cub->textutes.EA=((%s))\n", cub->textutes.EA);
+	// printf("cub->textutes.WE=((%s))\n", cub->textutes.WE);
+	// printf("cub->clr.C=((%s))\n", cub->clr.C);
+	// printf("cub->clr.F=((%s))\n", cub->clr.F);
+	// printf("\n\n");
 }
 
 void	map_filter(t_cub cub, char *map, t_list *alloc)
@@ -118,7 +263,7 @@ void	map_filter(t_cub cub, char *map, t_list *alloc)
 	ft_bzero(&cub, sizeof(t_cub));
 	read_map(&cub, map, alloc);
 	check_map(&cub, alloc);
-	print_map(&cub);
+	// print_map(&cub);
 	
 }
 
