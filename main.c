@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 10:17:49 by hakader           #+#    #+#             */
-/*   Updated: 2025/06/30 16:38:52 by hakader          ###   ########.fr       */
+/*   Updated: 2025/07/02 10:25:25 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,29 +73,29 @@ void	read_map(t_cub *cub, char *map, t_list *alloc)
 
 void	count_things(t_cub *cub, t_list *alloc)
 {
-	int	i;
-
+	int (i), (start);
 	i = 0;
 	while (cub->game.map[i])
 	{
-		if (ft_strncmp("NO ", cub->game.map[i], 3) == 0)
+		start = skip_whitespaces(cub, i, 0);
+		if (ft_strncmp("NO ", &cub->game.map[i][start], 3) == 0)
 			cub->textutes.n += 1;
-		else if (ft_strncmp("SO ", cub->game.map[i], 3) == 0)
+		else if (ft_strncmp("SO ", &cub->game.map[i][start], 3) == 0)
 			cub->textutes.s += 1;
-		else if (ft_strncmp("WE ", cub->game.map[i], 3) == 0)
+		else if (ft_strncmp("WE ", &cub->game.map[i][start], 3) == 0)
 			cub->textutes.w += 1;
-		else if (ft_strncmp("EA ", cub->game.map[i], 3) == 0)
+		else if (ft_strncmp("EA ", &cub->game.map[i][start], 3) == 0)
 			cub->textutes.e += 1;
-		else if (ft_strncmp("F ", cub->game.map[i], 2) == 0)
+		else if (ft_strncmp("F ", &cub->game.map[i][start], 2) == 0)
 			cub->clr.f_cnt += 1;
-		else if (ft_strncmp("C ", cub->game.map[i], 2) == 0)
+		else if (ft_strncmp("C ", &cub->game.map[i][start], 2) == 0)
 			cub->clr.c_cnt += 1;
 		i++;
 	}
 	if (cub->textutes.n != 1 || cub->textutes.s != 1 ||
 		cub->textutes.w != 1 || cub->textutes.e != 1 ||
 		cub->clr.c_cnt != 1 || cub->clr.f_cnt != 1)
-		put_error("not good", alloc);
+		put_error("Error\nInvalid structure", alloc);
 }
 
 void	get_colors(t_cub *cub, int line, int start, t_list *alloc)
@@ -120,7 +120,7 @@ void	get_values(t_cub *cub, int line, int start, t_list *alloc)
 	int	i;
 
 	i = 0;
-	printf("{{%c%c}}\n", cub->game.map[line][start], cub->game.map[line][start + 1]);
+	// printf("{{%c%c}}\n", cub->game.map[line][start], cub->game.map[line][start + 1]);
 	if (cub->game.map[line][start] == 'N' && cub->game.map[line][start + 1] == 'O' && is_whitespace(cub->game.map[line][start + 2]))
 	{
 		i = skip_whitespaces(cub, line, start + 2);
@@ -277,7 +277,7 @@ int	main(int ac, char **av)
 		return (1);
 	ft_bzero(alloc, sizeof(t_list));
 	if (ac != 2)
-		return (put_error("invalid map!", alloc), 1);
+		return (put_error("Invalid arguments", alloc), 1);
 	map_filter(cub, av[1], alloc);
 	free_all(&alloc);
 	return (0);

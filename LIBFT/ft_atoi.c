@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 18:12:11 by hakader           #+#    #+#             */
-/*   Updated: 2025/06/30 15:27:30 by hakader          ###   ########.fr       */
+/*   Updated: 2025/07/01 12:04:04 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ long	ft_atoi(const char *str, t_list *alloc_list)
 	i = skip(str, i);
 	while (str[i] >= '0' && str[i] <= '9')
 	{
-		if (result > ((LONG_MAX - (str[i] - '0')) / 10))
+		if (result > INT_MAX || result < INT_MIN)
 			exit_error(str, alloc_list);
 		result = result * 10 + (str[i] - 48);
 		i++;
