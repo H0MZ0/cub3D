@@ -12,26 +12,25 @@
 
 #include "cub.h"
 
-void	print_map(t_cub *cub)
+void print_map(t_cub *cub)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	if (!cub || !cub->game.map)
-		return ;
+		return;
 	while (cub->game.map[i])
 		printf("%s\n", cub->game.map[i++]);
 }
 
-int	column(char *map, t_list *alloc)
+int column(char *map, t_list *alloc)
 {
-	char	*str;
-	int		fd;
-	int		size;
+	char *str;
 
+	int(fd), (size);
 	fd = open(map, O_RDONLY);
 	if (fd == -1)
-		put_error("Failed to open map\n", alloc);
+		put_error("Failed to open map", alloc);
 	size = 0;
 	str = get_next_line(fd, alloc);
 	while (str)
@@ -43,42 +42,45 @@ int	column(char *map, t_list *alloc)
 	return (size);
 }
 
-void	read_map(t_cub *cub, char *map, t_list *alloc)
+void read_map(t_cub *cub, char *map, t_list *alloc)
 {
-	char	*readed;
-	
-	int (i), (fd);
-	fd = open (map, O_RDONLY);
+	char *readed;
+
+	int(i), (fd);
+	fd = open(map, O_RDONLY);
 	if (fd == -1)
-		put_error("Error in map read", alloc);
+		put_error("Failed to open map", alloc);
 	cub->game.column = column(map, alloc);
+	if (cub->game.column == 0)
+		put_error("Empty map", alloc);
 	cub->game.map = ft_malloc((cub->game.column + 1) * sizeof(char *), &alloc);
 	if (!cub->game.column || !cub->game.map)
-		put_error("Error\nMalloc failed", alloc);
+		put_error("Malloc failed", alloc);
 	if (!cub->game.map)
 	{
-		close (fd);
-		put_error ("Error in map", alloc);
+		close(fd);
+		put_error("Error in map", alloc);
 	}
 	readed = get_next_line(fd, alloc);
 	i = 0;
 	while (readed)
 	{
-		cub->game.map[i] = readed;
+		cub->game.map[i++] = readed;
 		readed = get_next_line(fd, alloc);
-		i++;
 	}
 	cub->game.map[i] = NULL;
 }
 
-void	count_things(t_cub *cub, t_list *alloc)
+void count_things(t_cub *cub, t_list *alloc)
 {
-	int (i), (start);
-	i = 0;
-	while (cub->game.map[i])
+	int(i), (start);
+	i = -1;
+	while (cub->game.map[i++])
 	{
 		start = skip_whitespaces(cub, i, 0);
-		if (ft_strncmp("NO ", &cub->game.map[i][start], 3) == 0)
+		if (cub->game.map[i][start] == '1' || cub->game.map[i][start] == '0')
+			break;
+		else if (ft_strncmp("NO ", &cub->game.map[i][start], 3) == 0)
 			cub->textutes.n += 1;
 		else if (ft_strncmp("SO ", &cub->game.map[i][start], 3) == 0)
 			cub->textutes.s += 1;
@@ -90,64 +92,45 @@ void	count_things(t_cub *cub, t_list *alloc)
 			cub->clr.f_cnt += 1;
 		else if (ft_strncmp("C ", &cub->game.map[i][start], 2) == 0)
 			cub->clr.c_cnt += 1;
-		i++;
 	}
 	if (cub->textutes.n != 1 || cub->textutes.s != 1 ||
 		cub->textutes.w != 1 || cub->textutes.e != 1 ||
 		cub->clr.c_cnt != 1 || cub->clr.f_cnt != 1)
-		put_error("Error\nInvalid structure", alloc);
+		put_error("Invalid structure", alloc);
+	cub->game.jungle = &cub->game.map[i];
 }
 
-void	get_colors(t_cub *cub, int line, int start, t_list *alloc)
+void get_colors(t_cub *cub, int line, int start, t_list *alloc)
 {
-	int	i;
+	int i;
 
-	i = 0;
+	i = skip_whitespaces(cub, line, start + 1);
 	if (cub->game.map[line][start] == 'C' && is_whitespace(cub->game.map[line][start + 1]))
-	{
-		i = skip_whitespaces(cub, line, start + 1);
 		cub->clr.C = ft_strdup(&cub->game.map[line][i], alloc);
-	}
 	else if (cub->game.map[line][start] == 'F' && is_whitespace(cub->game.map[line][start + 1]))
-	{
-		i = skip_whitespaces(cub, line, start + 1);
 		cub->clr.F = ft_strdup(&cub->game.map[line][i], alloc);
-	}
 }
 
-void	get_values(t_cub *cub, int line, int start, t_list *alloc)
+void get_values(t_cub *cub, int line, int start, t_list *alloc)
 {
-	int	i;
+	int i;
 
-	i = 0;
-	// printf("{{%c%c}}\n", cub->game.map[line][start], cub->game.map[line][start + 1]);
+	i = skip_whitespaces(cub, line, start + 2);
 	if (cub->game.map[line][start] == 'N' && cub->game.map[line][start + 1] == 'O' && is_whitespace(cub->game.map[line][start + 2]))
-	{
-		i = skip_whitespaces(cub, line, start + 2);
 		cub->textutes.NO = ft_strdup(&cub->game.map[line][i], alloc);
-	}
 	else if (cub->game.map[line][start] == 'S' && cub->game.map[line][start + 1] == 'O' && is_whitespace(cub->game.map[line][start + 2]))
-	{
-		i = skip_whitespaces(cub, line, start + 2);
 		cub->textutes.SO = ft_strdup(&cub->game.map[line][i], alloc);
-	}
 	else if (cub->game.map[line][start] == 'W' && cub->game.map[line][start + 1] == 'E' && is_whitespace(cub->game.map[line][start + 2]))
-	{
-		i = skip_whitespaces(cub, line, start + 2);
 		cub->textutes.WE = ft_strdup(&cub->game.map[line][i], alloc);
-	}
 	else if (cub->game.map[line][start] == 'E' && cub->game.map[line][start + 1] == 'A' && is_whitespace(cub->game.map[line][start + 2]))
-	{
-		i = skip_whitespaces(cub, line, start + 2);
 		cub->textutes.EA = ft_strdup(&cub->game.map[line][i], alloc);
-	}
 	else
 		get_colors(cub, line, start, alloc);
 }
 
-void	clean_map(t_cub *cub, t_list *alloc)
+void clean_map(t_cub *cub, t_list *alloc)
 {
-	int (start), (line);
+	int(start), (line);
 	line = 0;
 	while (cub->game.map && cub->game.map[line])
 	{
@@ -158,16 +141,16 @@ void	clean_map(t_cub *cub, t_list *alloc)
 		// 		|| cub->game.map[line][start] == 32)
 		// 		start++;
 		// 	else
-				get_values(cub, line, start, alloc);
-			// start++;
+		get_values(cub, line, start, alloc);
+		// start++;
 		// }
 		line++;
 	}
 }
 
-char	*whitespaces_remover(char *data, t_list *alloc)
+char *whitespaces_remover(char *data, t_list *alloc)
 {
-	int	index;
+	int index;
 
 	index = ft_strlen(data) - 1;
 	while (index > 0 && is_whitespace(data[index]))
@@ -176,7 +159,7 @@ char	*whitespaces_remover(char *data, t_list *alloc)
 	return (data);
 }
 
-void	whitespaces_handler(t_cub *cub, t_list *alloc)
+void whitespaces_handler(t_cub *cub, t_list *alloc)
 {
 	cub->textutes.SO = whitespaces_remover(cub->textutes.SO, alloc);
 	cub->textutes.NO = whitespaces_remover(cub->textutes.NO, alloc);
@@ -186,7 +169,7 @@ void	whitespaces_handler(t_cub *cub, t_list *alloc)
 	cub->clr.F = whitespaces_remover(cub->clr.F, alloc);
 }
 
-void	check_colors(t_cub *cub, t_list *alloc)
+void check_colors(t_cub *cub, t_list *alloc)
 {
 	if (cub->clr.F_red < 0 || cub->clr.F_red > 255)
 		put_error("Error\nColor not valid!", alloc);
@@ -202,10 +185,10 @@ void	check_colors(t_cub *cub, t_list *alloc)
 		put_error("Error\nColor not valid!", alloc);
 }
 
-int	count_commas(char *data)
+int count_commas(char *data)
 {
-	int	i;
-	int	count;
+	int i;
+	int count;
 
 	i = 0;
 	count = 1;
@@ -218,7 +201,7 @@ int	count_commas(char *data)
 	return (count);
 }
 
-void	rgb_colors(t_cub *cub, t_list *alloc)
+void rgb_colors(t_cub *cub, t_list *alloc)
 {
 	if (count_commas(cub->clr.C) > 3 || count_commas(cub->clr.F) > 3)
 		put_error("a lot of colors", alloc);
@@ -233,21 +216,21 @@ void	rgb_colors(t_cub *cub, t_list *alloc)
 	check_colors(cub, alloc);
 }
 
-
-
-void	check_map(t_cub *cub, t_list *alloc)
+void check_map(t_cub *cub, t_list *alloc)
 {
 	count_things(cub, alloc);
 	clean_map(cub, alloc);
 	whitespaces_handler(cub, alloc);
 	rgb_colors(cub, alloc);
 
-	printf("F_red: {{%d}}\n", cub->clr.F_red);
-	printf("F_green: {{%d}}\n", cub->clr.F_green);
-	printf("F_blue: {{%d}}\n", cub->clr.F_blue);
-	printf("C_red: {{%d}}\n", cub->clr.C_red);
-	printf("C_green: {{%d}}\n", cub->clr.C_green);
-	printf("C_blue: {{%d}}\n", cub->clr.C_blue);
+	for(int i = 0; cub->game.jungle[i]; i++)
+		printf("((%s))\n", cub->game.jungle[i]);
+	// printf("F_red: {{%d}}\n", cub->clr.F_red);
+	// printf("F_green: {{%d}}\n", cub->clr.F_green);
+	// printf("F_blue: {{%d}}\n", cub->clr.F_blue);
+	// printf("C_red: {{%d}}\n", cub->clr.C_red);
+	// printf("C_green: {{%d}}\n", cub->clr.C_green);
+	// printf("C_blue: {{%d}}\n", cub->clr.C_blue);
 
 	// printf("cub->textutes.SO=((%s))\n", cub->textutes.SO);
 	// printf("cub->textutes.NO=((%s))\n", cub->textutes.NO);
@@ -258,19 +241,49 @@ void	check_map(t_cub *cub, t_list *alloc)
 	// printf("\n\n");
 }
 
-void	map_filter(t_cub cub, char *map, t_list *alloc)
+int get_map_name(char *map)
 {
+	int len;
+
+	len = ft_strlen(map) - 1;
+	if (map[len] == '/')
+		len--;
+	while (len > 0)
+	{
+		if (map[len] == '/')
+			return (len + 1);
+		len--;
+	}
+	return (0);
+}
+
+void parse_map_name(t_cub *cub, char *map, t_list *alloc)
+{
+	char *name;
+
+	int(start), (end);
+	end = ft_strlen(map);
+	start = get_map_name(map);
+	name = ft_substr(map, start, end, alloc);
+	if (name[ft_strlen(name) - 1] == '/')
+		name = ft_substr(name, 0, ft_strlen(name) - 1, alloc);
+	if (ft_strncmp(".cub", &name[ft_strlen(name) - 4], 4) != 0 || ft_strlen(name) < 5)
+		put_error("invalid map name", alloc);
+}
+
+void map_filter(t_cub cub, char *map, t_list *alloc)
+{
+	parse_map_name(&cub, map, alloc);
 	ft_bzero(&cub, sizeof(t_cub));
 	read_map(&cub, map, alloc);
 	check_map(&cub, alloc);
-	// print_map(&cub);
-	
+	print_map(&cub);
 }
 
-int	main(int ac, char **av)
+int main(int ac, char **av)
 {
-	t_cub	cub;
-	t_list	*alloc;
+	t_cub cub;
+	t_list *alloc;
 
 	alloc = malloc(sizeof(t_list));
 	if (!alloc)

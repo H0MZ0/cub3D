@@ -18,7 +18,7 @@ typedef struct s_game
 	int		row;
 	int		column;
 	char	**map;
-	char	**copy;
+	char	**jungle;
 }	t_game;
 
 typedef struct s_color
