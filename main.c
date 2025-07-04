@@ -112,9 +112,11 @@ void get_colors(t_cub *cub, int line, int start, t_list *alloc)
 	int i;
 
 	i = skip_whitespaces(cub, line, start + 1);
-	if (cub->game.map[line][start] == 'C' && is_whitespace(cub->game.map[line][start + 1]))
+	if (cub->game.map[line][start] == 'C'
+		&& is_whitespace(cub->game.map[line][start + 1]))
 		cub->clr.C = ft_strdup(&cub->game.map[line][i], alloc);
-	else if (cub->game.map[line][start] == 'F' && is_whitespace(cub->game.map[line][start + 1]))
+	else if (cub->game.map[line][start] == 'F'
+		&& is_whitespace(cub->game.map[line][start + 1]))
 		cub->clr.F = ft_strdup(&cub->game.map[line][i], alloc);
 }
 
@@ -123,13 +125,17 @@ void	get_values(t_cub *cub, int line, int start, t_list *alloc)
 	int	i;
 
 	i = skip_whitespaces(cub, line, start + 2);
-	if (cub->game.map[line][start] == 'N' && cub->game.map[line][start + 1] == 'O')
+	if (cub->game.map[line][start] == 'N'
+		&& cub->game.map[line][start + 1] == 'O')
 		cub->textures.NO = ft_strdup(&cub->game.map[line][i], alloc);
-	else if (cub->game.map[line][start] == 'S' && cub->game.map[line][start + 1] == 'O')
+	else if (cub->game.map[line][start] == 'S'
+		&& cub->game.map[line][start + 1] == 'O')
 		cub->textures.SO = ft_strdup(&cub->game.map[line][i], alloc);
-	else if (cub->game.map[line][start] == 'W' && cub->game.map[line][start + 1] == 'E')
+	else if (cub->game.map[line][start] == 'W'
+		&& cub->game.map[line][start + 1] == 'E')
 		cub->textures.WE = ft_strdup(&cub->game.map[line][i], alloc);
-	else if (cub->game.map[line][start] == 'E' && cub->game.map[line][start + 1] == 'A')
+	else if (cub->game.map[line][start] == 'E'
+		&& cub->game.map[line][start + 1] == 'A')
 		cub->textures.EA = ft_strdup(&cub->game.map[line][i], alloc);
 	else if ((cub->game.map[line][start] == 'F'
 			|| cub->game.map[line][start] == 'C')
@@ -144,15 +150,7 @@ void clean_map(t_cub *cub, t_list *alloc)
 	while (cub->game.map && cub->game.map[line])
 	{
 		start = skip_whitespaces(cub, line, 0);
-		// while (cub->game.map[line][start])
-		// {
-		// 	if ((cub->game.map[line][start] >= 9 && cub->game.map[line][start] <= 13)
-		// 		|| cub->game.map[line][start] == 32)
-		// 		start++;
-		// 	else
 		get_values(cub, line, start, alloc);
-		// start++;
-		// }
 		line++;
 	}
 }
@@ -303,7 +301,8 @@ void parse_map_name(t_cub *cub, char *map, t_list *alloc)
 	name = ft_substr(map, start, end, alloc);
 	if (name[ft_strlen(name) - 1] == '/')
 		name = ft_substr(name, 0, ft_strlen(name) - 1, alloc);
-	if (ft_strncmp(".cub", &name[ft_strlen(name) - 4], 4) != 0 || ft_strlen(name) < 5)
+	if (ft_strncmp(".cub", &name[ft_strlen(name) - 4], 4) != 0
+		|| ft_strlen(name) < 5)
 		put_error("invalid map name", alloc);
 }
 
