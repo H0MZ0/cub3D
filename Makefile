@@ -1,5 +1,5 @@
 CC = cc
-# CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -g3
 
 NAME = cub3D
 

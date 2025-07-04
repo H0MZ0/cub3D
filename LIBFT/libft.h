@@ -67,6 +67,7 @@ int					is_operator(char c);
 void				ft_putstr_fdput_error(char *msg);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
 char				*ft_strndup(const char *s, size_t n, t_list *alloc_list);
+int					ft_strcmp(const char *str1, const char *str2);
 
 /* PART 2 */
 

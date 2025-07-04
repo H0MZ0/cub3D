@@ -38,7 +38,7 @@ long	ft_atoi(const char *str, t_list *alloc_list)
 	result = 0;
 	if (!str)
 		exit_error(str, alloc_list);
-	i = skip(str, i);
+	i = skip(str, 0);
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		if (result > INT_MAX || result < INT_MIN)

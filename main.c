@@ -71,33 +71,40 @@ void read_map(t_cub *cub, char *map, t_list *alloc)
 	cub->game.map[i] = NULL;
 }
 
-void count_things(t_cub *cub, t_list *alloc)
+int count_textures(t_cub *cub)
 {
-	int(i), (start);
-	i = -1;
-	while (cub->game.map[i++])
+	return (cub->textures.n == 1 && cub->textures.s == 1 &&
+			cub->textures.w == 1 && cub->textures.e == 1 &&
+			cub->clr.c_cnt == 1 && cub->clr.f_cnt == 1);
+}
+
+int count_things(t_cub *cub, t_list *alloc)
+{
+	int i, start;
+
+	i = 0;
+	while (cub->game.map[i])
 	{
 		start = skip_whitespaces(cub, i, 0);
-		if (cub->game.map[i][start] == '1' || cub->game.map[i][start] == '0')
-			break;
-		else if (ft_strncmp("NO ", &cub->game.map[i][start], 3) == 0)
-			cub->textutes.n += 1;
+		if (ft_strncmp("NO ", &cub->game.map[i][start], 3) == 0)
+			cub->textures.n++;
 		else if (ft_strncmp("SO ", &cub->game.map[i][start], 3) == 0)
-			cub->textutes.s += 1;
+			cub->textures.s++;
 		else if (ft_strncmp("WE ", &cub->game.map[i][start], 3) == 0)
-			cub->textutes.w += 1;
+			cub->textures.w++;
 		else if (ft_strncmp("EA ", &cub->game.map[i][start], 3) == 0)
-			cub->textutes.e += 1;
+			cub->textures.e++;
 		else if (ft_strncmp("F ", &cub->game.map[i][start], 2) == 0)
-			cub->clr.f_cnt += 1;
+			cub->clr.f_cnt++;
 		else if (ft_strncmp("C ", &cub->game.map[i][start], 2) == 0)
-			cub->clr.c_cnt += 1;
+			cub->clr.c_cnt++;
+		else
+			break;
+		i++;
 	}
-	if (cub->textutes.n != 1 || cub->textutes.s != 1 ||
-		cub->textutes.w != 1 || cub->textutes.e != 1 ||
-		cub->clr.c_cnt != 1 || cub->clr.f_cnt != 1)
-		put_error("Invalid structure", alloc);
-	cub->game.jungle = &cub->game.map[i];
+	if (count_textures(cub))
+		return (cub->game.jungle = &cub->game.map[i], 0);
+	return (put_error("Invalid map", alloc), 1);
 }
 
 void get_colors(t_cub *cub, int line, int start, t_list *alloc)
@@ -111,20 +118,22 @@ void get_colors(t_cub *cub, int line, int start, t_list *alloc)
 		cub->clr.F = ft_strdup(&cub->game.map[line][i], alloc);
 }
 
-void get_values(t_cub *cub, int line, int start, t_list *alloc)
+void	get_values(t_cub *cub, int line, int start, t_list *alloc)
 {
-	int i;
+	int	i;
 
 	i = skip_whitespaces(cub, line, start + 2);
-	if (cub->game.map[line][start] == 'N' && cub->game.map[line][start + 1] == 'O' && is_whitespace(cub->game.map[line][start + 2]))
-		cub->textutes.NO = ft_strdup(&cub->game.map[line][i], alloc);
-	else if (cub->game.map[line][start] == 'S' && cub->game.map[line][start + 1] == 'O' && is_whitespace(cub->game.map[line][start + 2]))
-		cub->textutes.SO = ft_strdup(&cub->game.map[line][i], alloc);
-	else if (cub->game.map[line][start] == 'W' && cub->game.map[line][start + 1] == 'E' && is_whitespace(cub->game.map[line][start + 2]))
-		cub->textutes.WE = ft_strdup(&cub->game.map[line][i], alloc);
-	else if (cub->game.map[line][start] == 'E' && cub->game.map[line][start + 1] == 'A' && is_whitespace(cub->game.map[line][start + 2]))
-		cub->textutes.EA = ft_strdup(&cub->game.map[line][i], alloc);
-	else
+	if (cub->game.map[line][start] == 'N' && cub->game.map[line][start + 1] == 'O')
+		cub->textures.NO = ft_strdup(&cub->game.map[line][i], alloc);
+	else if (cub->game.map[line][start] == 'S' && cub->game.map[line][start + 1] == 'O')
+		cub->textures.SO = ft_strdup(&cub->game.map[line][i], alloc);
+	else if (cub->game.map[line][start] == 'W' && cub->game.map[line][start + 1] == 'E')
+		cub->textures.WE = ft_strdup(&cub->game.map[line][i], alloc);
+	else if (cub->game.map[line][start] == 'E' && cub->game.map[line][start + 1] == 'A')
+		cub->textures.EA = ft_strdup(&cub->game.map[line][i], alloc);
+	else if ((cub->game.map[line][start] == 'F'
+			|| cub->game.map[line][start] == 'C')
+		&& is_whitespace(cub->game.map[line][start + 1]))
 		get_colors(cub, line, start, alloc);
 }
 
@@ -150,8 +159,10 @@ void clean_map(t_cub *cub, t_list *alloc)
 
 char *whitespaces_remover(char *data, t_list *alloc)
 {
-	int index;
+	int	index;
 
+	if (!data)
+		return (NULL);
 	index = ft_strlen(data) - 1;
 	while (index > 0 && is_whitespace(data[index]))
 		index--;
@@ -161,10 +172,10 @@ char *whitespaces_remover(char *data, t_list *alloc)
 
 void whitespaces_handler(t_cub *cub, t_list *alloc)
 {
-	cub->textutes.SO = whitespaces_remover(cub->textutes.SO, alloc);
-	cub->textutes.NO = whitespaces_remover(cub->textutes.NO, alloc);
-	cub->textutes.EA = whitespaces_remover(cub->textutes.EA, alloc);
-	cub->textutes.WE = whitespaces_remover(cub->textutes.WE, alloc);
+	cub->textures.SO = whitespaces_remover(cub->textures.SO, alloc);
+	cub->textures.NO = whitespaces_remover(cub->textures.NO, alloc);
+	cub->textures.EA = whitespaces_remover(cub->textures.EA, alloc);
+	cub->textures.WE = whitespaces_remover(cub->textures.WE, alloc);
 	cub->clr.C = whitespaces_remover(cub->clr.C, alloc);
 	cub->clr.F = whitespaces_remover(cub->clr.F, alloc);
 }
@@ -192,6 +203,8 @@ int count_commas(char *data)
 
 	i = 0;
 	count = 1;
+	if (!data)
+		return (0);
 	while (data[i])
 	{
 		if (data[i] == ',')
@@ -207,6 +220,8 @@ void rgb_colors(t_cub *cub, t_list *alloc)
 		put_error("a lot of colors", alloc);
 	cub->clr.f_colors = ft_split(cub->clr.F, ',', alloc);
 	cub->clr.c_colors = ft_split(cub->clr.C, ',', alloc);
+	if (cub->clr.f_colors == NULL || cub->clr.c_colors == NULL)
+		return ;
 	cub->clr.F_red = ft_atoi(cub->clr.f_colors[0], alloc);
 	cub->clr.F_green = ft_atoi(cub->clr.f_colors[1], alloc);
 	cub->clr.F_blue = ft_atoi(cub->clr.f_colors[2], alloc);
@@ -216,15 +231,36 @@ void rgb_colors(t_cub *cub, t_list *alloc)
 	check_colors(cub, alloc);
 }
 
+void	check_textures(t_cub *cub, t_list *alloc)
+{
+	const char	*suffix;
+	t_textures	*tx;
+
+	suffix = ".xpm";
+	tx = &cub->textures;
+	if (ft_strlen(tx->EA) < 5 || ft_strlen(tx->NO) < 5
+		|| ft_strlen(tx->SO) < 5 || ft_strlen(tx->WE) < 5
+		|| ft_strcmp(&tx->EA[ft_strlen(tx->EA) - 4], suffix) != 0
+		|| ft_strcmp(&tx->NO[ft_strlen(tx->NO) - 4], suffix) != 0
+		|| ft_strcmp(&tx->SO[ft_strlen(tx->SO) - 4], suffix) != 0
+		|| ft_strcmp(&tx->WE[ft_strlen(tx->WE) - 4], suffix) != 0)
+		put_error("textures name!", alloc);
+}
+
 void check_map(t_cub *cub, t_list *alloc)
 {
 	count_things(cub, alloc);
 	clean_map(cub, alloc);
 	whitespaces_handler(cub, alloc);
 	rgb_colors(cub, alloc);
-
+	check_textures(cub, alloc);
+	// print_map(cub);
 	for(int i = 0; cub->game.jungle[i]; i++)
 		printf("((%s))\n", cub->game.jungle[i]);
+	// printf("textures.NO: {{%s}}\n", cub->textures.NO);
+	// printf("textures.EA: {{%s}}\n", cub->textures.EA);
+	// printf("textures.SO: {{%s}}\n", cub->textures.SO);
+	// printf("textures.WE: {{%s}}\n", cub->textures.WE);
 	// printf("F_red: {{%d}}\n", cub->clr.F_red);
 	// printf("F_green: {{%d}}\n", cub->clr.F_green);
 	// printf("F_blue: {{%d}}\n", cub->clr.F_blue);
@@ -232,10 +268,10 @@ void check_map(t_cub *cub, t_list *alloc)
 	// printf("C_green: {{%d}}\n", cub->clr.C_green);
 	// printf("C_blue: {{%d}}\n", cub->clr.C_blue);
 
-	// printf("cub->textutes.SO=((%s))\n", cub->textutes.SO);
-	// printf("cub->textutes.NO=((%s))\n", cub->textutes.NO);
-	// printf("cub->textutes.EA=((%s))\n", cub->textutes.EA);
-	// printf("cub->textutes.WE=((%s))\n", cub->textutes.WE);
+	// printf("cub->textures.SO=((%s))\n", cub->textures.SO);
+	// printf("cub->textures.NO=((%s))\n", cub->textures.NO);
+	// printf("cub->textures.EA=((%s))\n", cub->textures.EA);
+	// printf("cub->textures.WE=((%s))\n", cub->textures.WE);
 	// printf("cub->clr.C=((%s))\n", cub->clr.C);
 	// printf("cub->clr.F=((%s))\n", cub->clr.F);
 	// printf("\n\n");
@@ -277,7 +313,8 @@ void map_filter(t_cub cub, char *map, t_list *alloc)
 	ft_bzero(&cub, sizeof(t_cub));
 	read_map(&cub, map, alloc);
 	check_map(&cub, alloc);
-	print_map(&cub);
+	// handle_map(&cub, alloc);
+	// print_map(&cub);
 }
 
 int main(int ac, char **av)

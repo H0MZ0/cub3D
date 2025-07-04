@@ -72,7 +72,7 @@ typedef struct s_cub
 	t_axis		axis;
 	t_keys		keys;
 	t_color		clr;
-	t_textures	textutes;
+	t_textures	textures;
 	// int			column;
 }	t_cub;
 

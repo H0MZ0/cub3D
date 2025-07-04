@@ -19,7 +19,7 @@ void	init_all(t_cub *cub)
 	ft_bzero(&cub->clr, sizeof(t_color));
 	ft_bzero(&cub->game, sizeof(t_game));
 	ft_bzero(&cub->keys, sizeof(t_keys));
-	ft_bzero(&cub->textutes, sizeof(t_textures));
+	ft_bzero(&cub->textures, sizeof(t_textures));
 	ft_bzero(cub, sizeof(t_cub));
 }
 
