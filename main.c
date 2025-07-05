@@ -86,6 +86,11 @@ int count_things(t_cub *cub, t_list *alloc)
 	while (cub->game.map[i])
 	{
 		start = skip_whitespaces(cub, i, 0);
+		if (cub->game.map[i][start] == '\0')
+		{
+			i++;
+			continue;
+		}
 		if (ft_strncmp("NO ", &cub->game.map[i][start], 3) == 0)
 			cub->textures.n++;
 		else if (ft_strncmp("SO ", &cub->game.map[i][start], 3) == 0)
