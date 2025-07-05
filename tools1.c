@@ -23,15 +23,18 @@ void	init_all(t_cub *cub)
 	ft_bzero(cub, sizeof(t_cub));
 }
 
-int	skip_whitespaces(t_cub *cub, int line, int start)
+int	skip_whitespaces(char **map, int line, int start)
 {
-	if (!cub->game.map || !cub->game.map[line])
+	char	c;
+
+	if (!map || !map[line])
 		return (0);
-	while (cub->game.map[line][start] <= 13 && cub->game.map[line][start] >= 9
-		|| cub->game.map[line][start] == 32)
-		start++;
+	c = map[line][start];
+	while (c && ((c >= 9 && c <= 13) || c == 32))
+		c = map[line][++start];
 	return (start);
 }
+
 
 int	is_whitespace(int c)
 {

@@ -22,7 +22,7 @@
 
 void	print_map(t_cub *cub);
 int		is_whitespace(int c);
-int		skip_whitespaces(t_cub *cub, int line, int start);
+int	    skip_whitespaces(char **map, int line, int start);
 int		is_map_line(char *line);
 int		validate_textures_and_colors(t_cub *cub, char *map_file, t_list *alloc);
 

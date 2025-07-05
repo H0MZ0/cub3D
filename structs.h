@@ -17,6 +17,7 @@ typedef struct s_game
 {
 	int		row;
 	int		column;
+	int		p_count;
 	char	**map;
 	char	**jungle;
 }	t_game;

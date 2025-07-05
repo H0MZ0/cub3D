@@ -3,6 +3,7 @@
 		"cub.h": "c",
 		"random": "c",
 		"libft.h": "c",
-		"stdio.h": "c"
+		"stdio.h": "c",
+		"mlx42.h": "c"
 	}
 }

@@ -85,7 +85,7 @@ int count_things(t_cub *cub, t_list *alloc)
 	i = 0;
 	while (cub->game.map[i])
 	{
-		start = skip_whitespaces(cub, i, 0);
+		start = skip_whitespaces(cub->game.map, i, 0);
 		if (cub->game.map[i][start] == '\0')
 		{
 			i++;
@@ -116,7 +116,7 @@ void get_colors(t_cub *cub, int line, int start, t_list *alloc)
 {
 	int i;
 
-	i = skip_whitespaces(cub, line, start + 1);
+	i = skip_whitespaces(cub->game.map, line, start + 1);
 	if (cub->game.map[line][start] == 'C'
 		&& is_whitespace(cub->game.map[line][start + 1]))
 		cub->clr.C = ft_strdup(&cub->game.map[line][i], alloc);
@@ -129,7 +129,7 @@ void	get_values(t_cub *cub, int line, int start, t_list *alloc)
 {
 	int	i;
 
-	i = skip_whitespaces(cub, line, start + 2);
+	i = skip_whitespaces(cub->game.map, line, start + 2);
 	if (cub->game.map[line][start] == 'N'
 		&& cub->game.map[line][start + 1] == 'O')
 		cub->textures.NO = ft_strdup(&cub->game.map[line][i], alloc);
@@ -154,7 +154,7 @@ void clean_map(t_cub *cub, t_list *alloc)
 	line = 0;
 	while (cub->game.map && cub->game.map[line])
 	{
-		start = skip_whitespaces(cub, line, 0);
+		start = skip_whitespaces(cub->game.map, line, 0);
 		get_values(cub, line, start, alloc);
 		line++;
 	}
@@ -250,6 +250,57 @@ void	check_textures(t_cub *cub, t_list *alloc)
 		put_error("textures name!", alloc);
 }
 
+void	remove_vide_lines(t_cub *cub)
+{
+	int		i;
+	char	**jungle;
+
+	jungle = cub->game.jungle;
+	if (!jungle)
+		return ;
+	i = 0;
+	while (jungle[i])
+		i++;
+	i--;
+	while (i >= 0 && jungle[i]
+		&& skip_whitespaces(jungle, i, 0) == (int)ft_strlen(jungle[i]))
+	{
+		jungle[i] = NULL;
+		i--;
+	}
+}
+
+int	is_valid_char(char c)
+{
+	return (c == '1' || c == '0' || c == 'N'
+			|| c == 'S' || c == 'E' || c == 'W');
+}
+
+void	check_valid_chars(t_cub *cub, t_list *alloc)
+{
+	char	**map;
+	
+	int (i), (j);
+	map = cub->game.jungle;
+	i = 0;
+	while (map[i])
+	{
+		j = 0;
+		while (map[i][j])
+		{
+			if (map[i][j] == 'N' || map[i][j] == 'S'
+				|| map[i][j] == 'W' || map[i][j] == 'E')
+				cub->game.p_count++;
+			if (!(is_valid_char(map[i][j])) && !is_whitespace(map[i][j]))
+				put_error("invalid char in map!", alloc);
+			j++;
+		}
+		i++;
+	}
+	if (cub->game.p_count != 1)
+		put_error("check your player!", alloc);
+}
+
 void check_map(t_cub *cub, t_list *alloc)
 {
 	count_things(cub, alloc);
@@ -257,9 +308,11 @@ void check_map(t_cub *cub, t_list *alloc)
 	whitespaces_handler(cub, alloc);
 	rgb_colors(cub, alloc);
 	check_textures(cub, alloc);
+	remove_vide_lines(cub);
+	check_valid_chars(cub, alloc);
 	// print_map(cub);
 	for(int i = 0; cub->game.jungle[i]; i++)
-		printf("((%s))\n", cub->game.jungle[i]);
+		printf("%s\n", cub->game.jungle[i]);
 	// printf("textures.NO: {{%s}}\n", cub->textures.NO);
 	// printf("textures.EA: {{%s}}\n", cub->textures.EA);
 	// printf("textures.SO: {{%s}}\n", cub->textures.SO);
