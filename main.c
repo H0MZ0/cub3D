@@ -301,6 +301,88 @@ void	check_valid_chars(t_cub *cub, t_list *alloc)
 		put_error("check your player!", alloc);
 }
 
+
+int is_walkable(char c)
+{
+	return (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W');
+}
+
+int is_wall(char c)
+{
+	return (c == '1');
+}
+
+void check_map_surrounded_by_walls(char **map, int lines, t_list *alloc) {
+	int y, x, row_len;
+
+	// Check top and bottom rows
+	row_len = 0;
+	while (map[0][row_len])
+		row_len++;
+	for (x = 0; x < row_len; x++)
+	{
+		if (!is_wall(map[0][x]) && !is_whitespace(map[0][x]))
+			put_error("Map is NOT surrounded by walls (top row)!", alloc);
+	}
+	y = 0;
+	while (map[y])
+		y++;
+	row_len = 0;
+	while (map[y - 1][row_len])
+		row_len++;
+	for (x = 0; x < row_len; x++)
+	{
+		if (!is_wall(map[y - 1][x]) && !is_whitespace(map[y - 1][x]))
+			put_error("Map is NOT surrounded by walls (bottom row)!", alloc);
+	}
+
+	// Check left and right walls for each row
+	y = -1;
+	while (map[++y])
+	{
+		row_len = ft_strlen(map[y]);
+		// Skip empty lines
+		// if (row_len == 0)
+		// 	continue;
+		// Find first non-whitespace character
+		x = 0;
+		while (map[y][x] && is_whitespace(map[y][x]))
+			x++;
+		if (!is_wall(map[y][x]))
+			put_error("Map is NOT surrounded by walls (left side)!", alloc);
+		// Find last non-whitespace character
+		int last = row_len - 1;
+		while (last >= 0 && is_whitespace(map[y][last]))
+			last--;
+		if (!is_wall(map[y][last]))
+			put_error("Map is NOT surrounded by walls (right side)!", alloc);
+		// y++;
+	}
+
+	// Check walkable cells are not adjacent to spaces or outside
+	for (y = 0; map[y]; y++)
+	{
+		row_len = ft_strlen(map[y]);
+		for (x = 0; x < row_len; x++)
+		{
+			if (is_walkable(map[y][x])) {
+				// North
+				if (y == 0 || x >= (int)ft_strlen(map[y - 1]) || is_whitespace(map[y - 1][x]))
+					put_error("Map is NOT surrounded by walls (north)!", alloc);
+				// South
+				if (map[y + 1] == NULL || x >= (int)ft_strlen(map[y + 1]) || is_whitespace(map[y + 1][x]))
+					put_error("Map is NOT surrounded by walls (south)!", alloc);
+				// West
+				if (x == 0 || is_whitespace(map[y][x - 1]))
+					put_error("Map is NOT surrounded by walls (west)!", alloc);
+				// East
+				if (x + 1 >= row_len || is_whitespace(map[y][x + 1]))
+					put_error("Map is NOT surrounded by walls (east)!", alloc);
+			}
+		}
+	}
+}
+
 void check_map(t_cub *cub, t_list *alloc)
 {
 	count_things(cub, alloc);
@@ -310,6 +392,8 @@ void check_map(t_cub *cub, t_list *alloc)
 	check_textures(cub, alloc);
 	remove_vide_lines(cub);
 	check_valid_chars(cub, alloc);
+	check_map_surrounded_by_walls(cub->game.jungle, cub->game.column, alloc);
+
 	// print_map(cub);
 	for(int i = 0; cub->game.jungle[i]; i++)
 		printf("%s\n", cub->game.jungle[i]);
@@ -363,6 +447,7 @@ void parse_map_name(t_cub *cub, char *map, t_list *alloc)
 		|| ft_strlen(name) < 5)
 		put_error("invalid map name", alloc);
 }
+
 
 void map_filter(t_cub cub, char *map, t_list *alloc)
 {
