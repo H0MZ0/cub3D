@@ -273,7 +273,8 @@ void	remove_vide_lines(t_cub *cub)
 int	is_valid_char(char c)
 {
 	return (c == '1' || c == '0' || c == 'N'
-			|| c == 'S' || c == 'E' || c == 'W');
+			|| c == 'S' || c == 'E' || c == 'W'
+			|| c == 'D');
 }
 
 void	check_valid_chars(t_cub *cub, t_list *alloc)
@@ -349,10 +350,7 @@ static void	check_sides(char **map, t_list *alloc)
 
 static void	check_walkable_cells(char **map, t_list *alloc)
 {
-	int	y;
-	int	x;
-	int	row_len;
-
+	int (y), (x), (row_len);
 	y = 0;
 	while (map[y])
 	{
