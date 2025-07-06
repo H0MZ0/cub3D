@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:51:24 by hakader           #+#    #+#             */
-/*   Updated: 2025/06/29 15:15:21 by hakader          ###   ########.fr       */
+/*   Updated: 2025/07/06 20:13:27 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,37 +26,35 @@ typedef struct s_color
 {
 	char	**f_colors;
 	char	**c_colors;
-	char	*F;
-	int		F_red;
-	int		F_green;
-	int		F_blue;
+	char	*f;
+	int		f_red;
+	int		f_green;
+	int		f_blue;
 	int		f_cnt;
-	char	*C;
-	int		C_red;
-	int		C_green;
-	int		C_blue;
+	char	*c;
+	int		c_red;
+	int		c_green;
+	int		c_blue;
 	int		c_cnt;
 }	t_color;
 
-typedef	struct s_textures
+typedef struct s_textures
 {
-	char	*NO;
-	char	*SO;
-	char	*WE;
-	char	*EA;
+	char	*no;
+	char	*so;
+	char	*we;
+	char	*ea;
 	int		n;
 	int		s;
 	int		w;
 	int		e;
 }	t_textures;
 
-
 typedef struct s_axis
 {
 	int		p_x;
 	int		p_y;
 }	t_axis;
-
 
 typedef struct s_keys
 {
@@ -65,7 +63,6 @@ typedef struct s_keys
 	int		s;
 	int		a;
 }	t_keys;
-
 
 typedef struct s_cub
 {

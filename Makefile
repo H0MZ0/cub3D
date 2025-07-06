@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -g3
+CFLAGS = -Wall -Wextra -Werror
 
 NAME = cub3D
 
@@ -8,7 +8,8 @@ LIBFT_DIR = LIBFT
 LIBFT_A = $(LIBFT_DIR)/libft.a
 
 # Sources and objects
-SRC = main.c tools1.c
+SRC =	functions/tools1.c cleaner.c count_things.c ft_check.c is_what.c main.c \
+		read_map.c clean_map.c print.c
 OBJ = $(SRC:.c=.o)
 
 all: $(LIBFT_A) $(NAME)
