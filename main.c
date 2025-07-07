@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 10:17:49 by hakader           #+#    #+#             */
-/*   Updated: 2025/07/07 16:00:17 by hakader          ###   ########.fr       */
+/*   Updated: 2025/07/07 17:48:56 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,13 @@ int	count_commas(char *data)
 	return (count);
 }
 
-void	map_filter(t_cub cub, char *map, t_list *alloc)
+void	map_filter(t_cub *cub, char *map, t_list *alloc)
 {
 	parse_map_name(map, alloc);
-	read_map(&cub, map, alloc);
-	check_map(&cub, alloc);
-	printf_jungle(&cub);
+	read_map(cub, map, alloc);
+	check_map(cub, alloc);
 }
+
 
 int	main(int ac, char **av)
 {
@@ -84,7 +84,9 @@ int	main(int ac, char **av)
 	ft_bzero(&cub, sizeof(t_cub));
 	if (ac != 2)
 		return (put_error("Invalid arguments", alloc), 1);
-	map_filter(cub, av[1], alloc);
+	map_filter(&cub, av[1], alloc);
+	// in_mlx(&cub, alloc);
+	// printf_jungle(&cub);
 	free_all(&alloc);
 	return (0);
 }

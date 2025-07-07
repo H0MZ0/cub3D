@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 10:17:03 by hakader           #+#    #+#             */
-/*   Updated: 2025/07/07 15:59:47 by hakader          ###   ########.fr       */
+/*   Updated: 2025/07/07 16:03:22 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int		is_wall(char c);
 void	get_colors(t_cub *cub, int line, int start, t_list *alloc);
 void	get_values(t_cub *cub, int line, int start, t_list *alloc);
 int		count_commas(char *data);
-void	map_filter(t_cub cub, char *map, t_list *alloc);
 void	print_map(t_cub *cub);
 void	printf_jungle(t_cub *cub);
 int		get_map_name(char *map);

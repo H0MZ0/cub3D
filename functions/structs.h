@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:51:24 by hakader           #+#    #+#             */
-/*   Updated: 2025/07/06 20:13:27 by hakader          ###   ########.fr       */
+/*   Updated: 2025/07/07 17:47:12 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,15 @@ typedef struct s_textures
 	int		e;
 }	t_textures;
 
+typedef struct s_image
+{
+	void	*north;
+	void	*south;
+	void	*east;
+	void	*west;
+	void	*img;
+}	t_image;
+
 typedef struct s_axis
 {
 	int		p_x;
@@ -71,7 +80,11 @@ typedef struct s_cub
 	t_keys		keys;
 	t_color		clr;
 	t_textures	textures;
-	// int			column;
+	t_image		tx;
+	void		*mlx;
+	void		*win;
+	int			column;
+	int			row;
 }	t_cub;
 
 #endif
