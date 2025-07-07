@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 10:17:49 by hakader           #+#    #+#             */
-/*   Updated: 2025/07/07 17:48:56 by hakader          ###   ########.fr       */
+/*   Updated: 2025/07/07 22:48:25 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	main(int ac, char **av)
 	if (ac != 2)
 		return (put_error("Invalid arguments", alloc), 1);
 	map_filter(&cub, av[1], alloc);
-	// in_mlx(&cub, alloc);
+	in_mlx(&cub, alloc);
 	// printf_jungle(&cub);
 	free_all(&alloc);
 	return (0);

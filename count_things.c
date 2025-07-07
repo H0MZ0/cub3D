@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 19:37:47 by hakader           #+#    #+#             */
-/*   Updated: 2025/07/07 15:35:45 by hakader          ###   ########.fr       */
+/*   Updated: 2025/07/07 23:08:49 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,10 @@ int	count_things(t_cub *cub, t_list *alloc)
 			break ;
 		i++;
 	}
+	(void)alloc;
 	if (count_textures(cub))
 		return (cub->game.jungle = &cub->game.map[i], 0);
-	return (put_error("Invalid map", alloc), 1);
+	return (1);
 }
 
 void	rgb_colors(t_cub *cub, t_list *alloc)

@@ -6,12 +6,24 @@
 /*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 10:17:03 by hakader           #+#    #+#             */
-/*   Updated: 2025/07/07 16:03:22 by hakader          ###   ########.fr       */
+/*   Updated: 2025/07/07 23:02:07 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB_H
 # define CUB_H
+
+# define KEY_ESC 65307
+# define KEY_UP 65362
+# define KEY_DOWN 65364
+# define KEY_RIGHT 65363
+# define KEY_LEFT 65361
+# define KEY_W 119
+# define KEY_D 100
+# define KEY_S 115
+# define KEY_A 97
+# define ESC 65307
+# define ON_DESTROY 17
 
 # include "functions/structs.h"
 # include <math.h>
@@ -21,6 +33,7 @@
 # include <fcntl.h>
 # include <string.h>
 # include <strings.h>
+# include "mlx/mlx.h"
 # include "LIBFT/libft.h"
 
 void	rgb_colors(t_cub *cub, t_list *alloc);
@@ -49,5 +62,6 @@ int		column(char *map, t_list *alloc);
 void	read_map(t_cub *cub, char *map, t_list *alloc);
 void	clean_map(t_cub *cub, t_list *alloc);
 int		skip_whitespaces(char **map, int line, int start);
+void	in_mlx(t_cub *cub, t_list *alloc);
 
 #endif
