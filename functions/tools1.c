@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 11:39:16 by hakader           #+#    #+#             */
-/*   Updated: 2025/07/06 20:11:02 by hakader          ###   ########.fr       */
+/*   Updated: 2025/07/06 20:53:14 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	skip_whitespaces(char **map, int line, int start)
 	char	c;
 
 	if (!map || !map[line])
-		return (0);
+		return (start);
 	c = map[line][start];
 	while (c && ((c >= 9 && c <= 13) || c == 32))
 		c = map[line][++start];
