@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 19:32:43 by hakader           #+#    #+#             */
-/*   Updated: 2025/07/06 20:04:08 by hakader          ###   ########.fr       */
+/*   Updated: 2025/07/08 13:14:45 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ int	is_valid_char(char c)
 
 int	is_walkable(char c)
 {
-	return (c == '0' || c == 'N'
-		|| c == 'S' || c == 'E' || c == 'W');
+	return (c == 'N' || c == 'S'
+		|| c == 'E' || c == 'W');
 }
 
 int	is_wall(char c)

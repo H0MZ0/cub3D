@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:51:24 by hakader           #+#    #+#             */
-/*   Updated: 2025/07/07 17:47:12 by hakader          ###   ########.fr       */
+/*   Updated: 2025/07/08 12:39:31 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,11 @@ typedef struct s_cub
 	void		*win;
 	int			column;
 	int			row;
+	void		*minimap_img;
+	char		*minimap_data;
+	int			line_len;
+	int			endian;
+	int			bpp;
 }	t_cub;
 
 #endif

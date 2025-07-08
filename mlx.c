@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:48:19 by hakader           #+#    #+#             */
-/*   Updated: 2025/07/07 23:30:56 by hakader          ###   ########.fr       */
+/*   Updated: 2025/07/08 13:18:32 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,12 @@ void	get_sizes(t_cub *cub)
 	if (!cub->game.jungle)
 		return ;
 	temp = 0;
+	cub->row = 0;
 	while (cub->game.jungle[cub->row])
 	{
-		cub->column = ft_strlen(cub->game.jungle[cub->row]);
-		if (cub->column > temp)
-			temp = cub->column;
+		int len = ft_strlen(cub->game.jungle[cub->row]);
+		if (len > temp)
+			temp = len;
 		cub->row++;
 	}
 	cub->column = temp;
@@ -32,13 +33,12 @@ void	get_sizes(t_cub *cub)
 void	find_player(t_cub *mlx)
 {
 	mlx->axis.p_y = 0;
-	while (mlx->game.map[mlx->axis.p_y])
+	while (mlx->game.jungle[mlx->axis.p_y])
 	{
 		mlx->axis.p_x = 0;
 		while (mlx->game.jungle[mlx->axis.p_y][mlx->axis.p_x])
 		{
-			if (!(mlx->game.jungle[mlx->axis.p_y][mlx->axis.p_x] == '0')
-				&& is_walkable(mlx->game.jungle[mlx->axis.p_y][mlx->axis.p_x]))
+			if (is_walkable(mlx->game.jungle[mlx->axis.p_y][mlx->axis.p_x]))
 				return ;
 			mlx->axis.p_x++;
 		}
@@ -46,20 +46,25 @@ void	find_player(t_cub *mlx)
 	}
 }
 
-int	key_hook(int keyhook, t_cub *mlx)
+void	put_pixel(t_cub *cub, int x, int y, int color)
 {
-	find_player(mlx);
-	count_things(mlx, 0);
-	if (keyhook == KEY_ESC || keyhook == ON_DESTROY)
-		exit(1);
-	return (0);
+	char	*dst;
+
+	dst = cub->minimap_data + (y * cub->line_len + x * (cub->bpp / 8));
+	*(unsigned int *)dst = color;
 }
 
 void	draw_minimap(t_cub *cub)
 {
-	int (x), (y), (dy), (dx), (color), (size);
-	size = 15;
+	int x, y, dx, dy, color;
+	int size = 15;
 
+	if (cub->minimap_img)
+		mlx_destroy_image(cub->mlx, cub->minimap_img);
+
+	cub->minimap_img = mlx_new_image(cub->mlx, cub->column * size, cub->row * size);
+	cub->minimap_data = mlx_get_data_addr(cub->minimap_img,
+		&cub->bpp, &cub->line_len, &cub->endian);
 	y = 0;
 	while (cub->game.jungle[y])
 	{
@@ -83,7 +88,7 @@ void	draw_minimap(t_cub *cub)
 				dx = 0;
 				while (dx < size)
 				{
-					mlx_pixel_put(cub->mlx, cub->win, x * size + dx, y * size + dy, color);
+					put_pixel(cub, x * size + dx, y * size + dy, color);
 					dx++;
 				}
 				dy++;
@@ -92,6 +97,43 @@ void	draw_minimap(t_cub *cub)
 		}
 		y++;
 	}
+	mlx_put_image_to_window(cub->mlx, cub->win, cub->minimap_img, 0, 0);
+}
+
+int key_hook(int keyhook, t_cub *mlx)
+{
+	int new_x = mlx->axis.p_x;
+	int new_y = mlx->axis.p_y;
+
+	printf("x=%d y=%d\n", mlx->axis.p_x, mlx->axis.p_y);
+	if (keyhook == KEY_W)
+		new_y -= 1;
+	else if (keyhook == KEY_S)
+		new_y += 1;
+	else if (keyhook == KEY_A)
+		new_x -= 1;
+	else if (keyhook == KEY_D)
+		new_x += 1;
+	else if (keyhook == KEY_ESC || keyhook == ON_DESTROY)
+		exit(0);
+	else
+		return (0);
+
+	if (new_y < 0 || new_y >= mlx->row)
+		return (0);
+	if (new_x < 0 || new_x >= (int)ft_strlen(mlx->game.jungle[new_y]))
+		return (0);
+
+	if (mlx->game.jungle[new_y][new_x] == '0')
+	{
+		mlx->game.jungle[mlx->axis.p_y][mlx->axis.p_x] = '0';
+		mlx->game.jungle[new_y][new_x] = 'E';
+		mlx->axis.p_x = new_x;
+		mlx->axis.p_y = new_y;
+
+		draw_minimap(mlx);
+	}
+	return (0);
 }
 
 void	in_mlx(t_cub *cub, t_list *alloc)
