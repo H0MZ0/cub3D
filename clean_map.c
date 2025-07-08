@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 19:40:51 by hakader           #+#    #+#             */
-/*   Updated: 2025/07/08 13:15:07 by hakader          ###   ########.fr       */
+/*   Updated: 2025/07/08 20:37:47 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,20 +52,19 @@ static void	check_top_bottom(char **map, int row, t_list *alloc)
 
 static void	check_sides(char **map, t_list *alloc)
 {
-	int (x), (y), (last), (row_len);
+	int (x), (y), (row_len);
 	y = 0;
 	while (map[y])
 	{
-		row_len = ft_strlen(map[y]);
+		row_len = ft_strlen(map[y]) - 1;
 		x = 0;
 		while (map[y][x] && is_whitespace(map[y][x]))
 			x++;
 		if (!is_wall(map[y][x]))
 			put_error("Map is NOT surrounded by walls!", alloc);
-		last = row_len - 1;
-		while (last >= 0 && is_whitespace(map[y][last]))
-			last--;
-		if (!is_wall(map[y][last]))
+		while (row_len >= 0 && is_whitespace(map[y][row_len]))
+			row_len--;
+		if (!is_wall(map[y][row_len]))
 			put_error("Map is NOT surrounded by walls!", alloc);
 		y++;
 	}
@@ -101,9 +100,9 @@ void	check_walls(char **map, t_list *alloc)
 {
 	int	lines;
 
-	lines = 0;
 	if (!map)
-		return ;
+	return ;
+	lines = 0;
 	while (map[lines])
 		lines++;
 	check_top_bottom(map, 0, alloc);

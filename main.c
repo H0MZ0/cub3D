@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 10:17:49 by hakader           #+#    #+#             */
-/*   Updated: 2025/07/07 22:48:25 by hakader          ###   ########.fr       */
+/*   Updated: 2025/07/08 20:29:29 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,23 +28,21 @@ void	get_colors(t_cub *cub, int line, int start, t_list *alloc)
 void	get_values(t_cub *cub, int line, int start, t_list *alloc)
 {
 	int	i;
+	char	*value;
 
 	i = skip_whitespaces(cub->game.map, line, start + 2);
-	if (cub->game.map[line][start] == 'N'
-		&& cub->game.map[line][start + 1] == 'O')
-		cub->textures.no = ft_strdup(&cub->game.map[line][i], alloc);
-	else if (cub->game.map[line][start] == 'S'
-		&& cub->game.map[line][start + 1] == 'O')
-		cub->textures.so = ft_strdup(&cub->game.map[line][i], alloc);
-	else if (cub->game.map[line][start] == 'W'
-		&& cub->game.map[line][start + 1] == 'E')
-		cub->textures.we = ft_strdup(&cub->game.map[line][i], alloc);
-	else if (cub->game.map[line][start] == 'E'
-		&& cub->game.map[line][start + 1] == 'A')
-		cub->textures.ea = ft_strdup(&cub->game.map[line][i], alloc);
-	else if ((cub->game.map[line][start] == 'F'
-		|| cub->game.map[line][start] == 'C')
-		&& is_whitespace(cub->game.map[line][start + 1]))
+	value = cub->game.map[line];
+	if (ft_strncmp("NO", &value[start], 2) == 0)
+		cub->textures.no = ft_strdup(&value[i], alloc);
+	else if (ft_strncmp("SO", &value[start], 2) == 0)
+		cub->textures.so = ft_strdup(&value[i], alloc);
+	else if (ft_strncmp("WE", &value[start], 2) == 0)
+		cub->textures.we = ft_strdup(&value[i], alloc);
+	else if (ft_strncmp("EA", &value[start], 2) == 0)
+		cub->textures.ea = ft_strdup(&value[i], alloc);
+	else if ((value[start] == 'F'
+		|| value[start] == 'C')
+		&& is_whitespace(value[start + 1]))
 		get_colors(cub, line, start, alloc);
 }
 

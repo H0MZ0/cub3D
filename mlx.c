@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:48:19 by hakader           #+#    #+#             */
-/*   Updated: 2025/07/08 13:18:32 by hakader          ###   ########.fr       */
+/*   Updated: 2025/07/08 20:30:07 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ int key_hook(int keyhook, t_cub *mlx)
 	int new_x = mlx->axis.p_x;
 	int new_y = mlx->axis.p_y;
 
-	printf("x=%d y=%d\n", mlx->axis.p_x, mlx->axis.p_y);
 	if (keyhook == KEY_W)
 		new_y -= 1;
 	else if (keyhook == KEY_S)
