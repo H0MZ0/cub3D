@@ -6,17 +6,18 @@
 /*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:51:24 by hakader           #+#    #+#             */
-/*   Updated: 2025/07/10 19:38:54 by hakader          ###   ########.fr       */
+/*   Updated: 2025/07/10 21:33:11 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
-# define MOVE_SPEED 0.008
-# define ROTATE_SPEED 0.002
+# define MOVE_SPEED 0.04
+# define ROTATE_SPEED 0.02
 # define FOV 90
-# define MINI_SIZE 15
+# define MINI_SIZE 40
+# define MINI_MAP_RADIUS 5
 
 
 typedef struct s_game

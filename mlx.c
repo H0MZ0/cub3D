@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:48:19 by hakader           #+#    #+#             */
-/*   Updated: 2025/07/10 19:37:20 by hakader          ###   ########.fr       */
+/*   Updated: 2025/07/10 21:37:21 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ void	put_pixel(t_cub *cub, int x, int y, int color)
 {
 	char	*dst;
 
+	if (x < 0 || y < 0 || x >= cub->column * MINI_SIZE || y >= cub->row * MINI_SIZE)
+        return;
 	dst = cub->minimap_data + (y * cub->line_len + x * (cub->bpp / 8));
 	*(unsigned int *)dst = color;
 }
