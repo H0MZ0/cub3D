@@ -6,12 +6,18 @@
 /*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:51:24 by hakader           #+#    #+#             */
-/*   Updated: 2025/07/08 12:39:31 by hakader          ###   ########.fr       */
+/*   Updated: 2025/07/10 19:38:54 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
+
+# define MOVE_SPEED 0.008
+# define ROTATE_SPEED 0.002
+# define FOV 90
+# define MINI_SIZE 15
+
 
 typedef struct s_game
 {
@@ -61,8 +67,9 @@ typedef struct s_image
 
 typedef struct s_axis
 {
-	int		p_x;
-	int		p_y;
+	double	p_x;
+	double	p_y;
+	double angle;
 }	t_axis;
 
 typedef struct s_keys
@@ -73,6 +80,15 @@ typedef struct s_keys
 	int		a;
 }	t_keys;
 
+typedef struct s_player {
+	double x;
+	double y;
+	int move_forward;
+	int move_back;
+	int move_left;
+	int move_right;
+}	t_player;
+
 typedef struct s_cub
 {
 	t_game		game;
@@ -81,6 +97,7 @@ typedef struct s_cub
 	t_color		clr;
 	t_textures	textures;
 	t_image		tx;
+	t_player	player;
 	void		*mlx;
 	void		*win;
 	int			column;
