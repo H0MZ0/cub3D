@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 19:40:51 by hakader           #+#    #+#             */
-/*   Updated: 2025/07/08 20:37:47 by hakader          ###   ########.fr       */
+/*   Updated: 2025/07/13 19:57:02 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static void	check_walkable_cells(char **map, t_list *alloc)
 		x = 0;
 		while (x < row_len)
 		{
-			if (is_walkable(map[y][x]) && map[y][x] != '0')
+			if (is_walkable(map[y][x]) || map[y][x] == '0')
 			{
 				if ((y == 0 || x >= (int)ft_strlen(map[y - 1])
 						|| is_whitespace(map[y - 1][x]))

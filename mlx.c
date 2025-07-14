@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:48:19 by hakader           #+#    #+#             */
-/*   Updated: 2025/07/10 21:37:21 by hakader          ###   ########.fr       */
+/*   Updated: 2025/07/12 16:10:40 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,27 @@ void	draw_direction_line(t_cub *cub)
 
 	while (i < length)
 	{
-		put_pixel(cub, (int)(x + dx * i), (int)(y + dy * i), 0x00FFFF);
+		put_pixel(cub, (int)(x + dx * i), (int)(y + dy * i), 0x212f3c);
 		i++;
+	}
+}
+
+void	draw_player(t_cub *cub)
+{
+	int (px), (py), (dx), (dy);
+	px = cub->axis.p_x * MINI_SIZE;
+	py = cub->axis.p_y * MINI_SIZE;
+	dx = -5;
+	dy = -5;
+	while (dy <= 5)
+	{
+		dx = -5;
+		while (dx <= 5)
+		{
+			put_pixel(cub, px + dx, py + dy, 0xFF0000);
+			dx++;
+		}
+		dy++;
 	}
 }
 
@@ -81,7 +100,6 @@ void	draw_minimap(t_cub *cub)
 
 	if (cub->minimap_img)
 		mlx_destroy_image(cub->mlx, cub->minimap_img);
-
 	cub->minimap_img = mlx_new_image(cub->mlx, cub->column * MINI_SIZE, cub->row * MINI_SIZE);
 	cub->minimap_data = mlx_get_data_addr(cub->minimap_img,
 		&cub->bpp, &cub->line_len, &cub->endian);
@@ -99,8 +117,8 @@ void	draw_minimap(t_cub *cub)
 				color = 0xFF0000;
 			else
 			{
-				x++;
-				continue;
+				x ++;
+				continue ;
 			}
 			dy = 0;
 			while (dy < MINI_SIZE)
@@ -117,11 +135,7 @@ void	draw_minimap(t_cub *cub)
 		}
 		y++;
 	}
-	int px = cub->axis.p_x * MINI_SIZE;
-	int py = cub->axis.p_y * MINI_SIZE;
-	for (dy = -2; dy <= 2; dy++)
-		for (dx = -2; dx <= 2; dx++)
-			put_pixel(cub, px + dx, py + dy, 0xFF0000);
+	draw_player(cub);
 	draw_direction_line(cub);
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->minimap_img, 0, 0);
 }
@@ -201,14 +215,14 @@ void	in_mlx(t_cub *cub, t_list *alloc)
 	cub->mlx = mlx_init();
 	if (!cub->mlx)
 		return (put_error("MLX initialization failed", alloc));
-	cub->win = mlx_new_window(cub->mlx, cub->column * 100,
-			cub->row * 100, "cub3D");
+	mlx_get_screen_size(cub->mlx, &cub->height, &cub->width);
+	cub->win = mlx_new_window(cub->mlx, cub->height,
+			cub->width, "cub3D");
 	if (!cub->win)
 		return (put_error("WIN initialization failed", alloc));
 	mlx_hook(cub->win, 2, 1L<<0, key_press, cub);
 	mlx_hook(cub->win, 3, 1L<<1, key_release, cub);
 	find_player(cub);
-	draw_minimap(cub);
 	mlx_loop_hook(cub->mlx, game_loop, cub);
 	mlx_loop(cub->mlx);
 }

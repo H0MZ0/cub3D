@@ -6,17 +6,17 @@
 /*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:51:24 by hakader           #+#    #+#             */
-/*   Updated: 2025/07/10 21:33:11 by hakader          ###   ########.fr       */
+/*   Updated: 2025/07/12 16:06:58 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
-# define MOVE_SPEED 0.04
-# define ROTATE_SPEED 0.02
+# define MOVE_SPEED 0.05
+# define ROTATE_SPEED 0.05
 # define FOV 90
-# define MINI_SIZE 40
+# define MINI_SIZE 30
 # define MINI_MAP_RADIUS 5
 
 
@@ -99,6 +99,8 @@ typedef struct s_cub
 	t_textures	textures;
 	t_image		tx;
 	t_player	player;
+	int			height;
+	int			width;
 	void		*mlx;
 	void		*win;
 	int			column;
