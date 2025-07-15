@@ -1,5 +1,11 @@
 {
     "files.associations": {
-        "cub.h": "c"
+        "cub.h": "c",
+        "libft.h": "c",
+        "mlx.h": "c",
+        "string.h": "c",
+        "stdio.h": "c",
+        "stdlib.h": "c",
+        "structs.h": "c"
     }
 }

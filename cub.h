@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 10:17:03 by hakader           #+#    #+#             */
-/*   Updated: 2025/07/07 23:02:07 by hakader          ###   ########.fr       */
+/*   Updated: 2025/07/15 16:09:08 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,6 @@ void	read_map(t_cub *cub, char *map, t_list *alloc);
 void	clean_map(t_cub *cub, t_list *alloc);
 int		skip_whitespaces(char **map, int line, int start);
 void	in_mlx(t_cub *cub, t_list *alloc);
+void	draw_minimap(t_cub *cub);
 
 #endif

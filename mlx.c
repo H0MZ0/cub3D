@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:48:19 by hakader           #+#    #+#             */
-/*   Updated: 2025/07/12 16:10:40 by hakader          ###   ########.fr       */
+/*   Updated: 2025/07/15 17:02:42 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,97 +47,6 @@ void find_player(t_cub *mlx)
 		}
 		mlx->axis.p_y++;
 	}
-}
-
-void	put_pixel(t_cub *cub, int x, int y, int color)
-{
-	char	*dst;
-
-	if (x < 0 || y < 0 || x >= cub->column * MINI_SIZE || y >= cub->row * MINI_SIZE)
-        return;
-	dst = cub->minimap_data + (y * cub->line_len + x * (cub->bpp / 8));
-	*(unsigned int *)dst = color;
-}
-
-void	draw_direction_line(t_cub *cub)
-{
-	int length = 20;
-	int i = 0;
-	double dx = cos(cub->axis.angle);
-	double dy = sin(cub->axis.angle);
-	double x = cub->axis.p_x * MINI_SIZE;
-	double y = cub->axis.p_y * MINI_SIZE;
-
-	while (i < length)
-	{
-		put_pixel(cub, (int)(x + dx * i), (int)(y + dy * i), 0x212f3c);
-		i++;
-	}
-}
-
-void	draw_player(t_cub *cub)
-{
-	int (px), (py), (dx), (dy);
-	px = cub->axis.p_x * MINI_SIZE;
-	py = cub->axis.p_y * MINI_SIZE;
-	dx = -5;
-	dy = -5;
-	while (dy <= 5)
-	{
-		dx = -5;
-		while (dx <= 5)
-		{
-			put_pixel(cub, px + dx, py + dy, 0xFF0000);
-			dx++;
-		}
-		dy++;
-	}
-}
-
-void	draw_minimap(t_cub *cub)
-{
-	int x, y, dx, dy, color;
-
-	if (cub->minimap_img)
-		mlx_destroy_image(cub->mlx, cub->minimap_img);
-	cub->minimap_img = mlx_new_image(cub->mlx, cub->column * MINI_SIZE, cub->row * MINI_SIZE);
-	cub->minimap_data = mlx_get_data_addr(cub->minimap_img,
-		&cub->bpp, &cub->line_len, &cub->endian);
-	y = 0;
-	while (cub->game.jungle[y])
-	{
-		x = 0;
-		while (cub->game.jungle[y][x])
-		{
-			if (cub->game.jungle[y][x] == '0')
-				color = 0x00FF00;
-			else if (cub->game.jungle[y][x] == '1')
-				color = 0xFFFFFF;
-			else if (is_walkable(cub->game.jungle[y][x]))
-				color = 0xFF0000;
-			else
-			{
-				x ++;
-				continue ;
-			}
-			dy = 0;
-			while (dy < MINI_SIZE)
-			{
-				dx = 0;
-				while (dx < MINI_SIZE)
-				{
-					put_pixel(cub, x * MINI_SIZE + dx, y * MINI_SIZE + dy, color);
-					dx++;
-				}
-				dy++;
-			}
-			x++;
-		}
-		y++;
-	}
-	draw_player(cub);
-	draw_direction_line(cub);
-	mlx_put_image_to_window(cub->mlx, cub->win, cub->minimap_img, 0, 0);
 }
 
 int	key_press(int keycode, t_cub *cub)
@@ -191,12 +100,11 @@ int	game_loop(t_cub *cub)
 		cub->axis.angle -= ROTATE_SPEED;
 	if (cub->player.move_right)
 		cub->axis.angle += ROTATE_SPEED;
-
 	// Normalize angle to [0, 2π]
-	if (cub->axis.angle < 0)
-		cub->axis.angle += 2 * M_PI;
-	else if (cub->axis.angle > 2 * M_PI)
-		cub->axis.angle -= 2 * M_PI;
+	// if (cub->axis.angle < 0)
+	// 	cub->axis.angle += 2 * M_PI;
+	// else if (cub->axis.angle > 2 * M_PI)
+	// 	cub->axis.angle -= 2 * M_PI;
 
 	// Wall collision check
 	if (cub->game.jungle[(int)new_y][(int)(cub->axis.p_x)] == '0')
@@ -207,7 +115,6 @@ int	game_loop(t_cub *cub)
 	draw_minimap(cub);
 	return (0);
 }
-
 
 void	in_mlx(t_cub *cub, t_list *alloc)
 {

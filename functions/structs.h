@@ -6,18 +6,34 @@
 /*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:51:24 by hakader           #+#    #+#             */
-/*   Updated: 2025/07/12 16:06:58 by hakader          ###   ########.fr       */
+/*   Updated: 2025/07/15 17:03:22 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
-# define MOVE_SPEED 0.05
-# define ROTATE_SPEED 0.05
+# define MOVE_SPEED 0.01
+# define ROTATE_SPEED 0.01
 # define FOV 90
 # define MINI_SIZE 30
 # define MINI_MAP_RADIUS 5
+
+#ifndef M_PI
+# define M_PI 3.14159265358979323846
+#endif
+
+typedef	struct s_var
+{
+	int		x;
+	int		dx;
+	int		y;
+	int		dy;
+	int		j;
+	int		k;
+	int		l;
+	int		color;
+}	t_var;
 
 
 typedef struct s_game
@@ -99,8 +115,10 @@ typedef struct s_cub
 	t_textures	textures;
 	t_image		tx;
 	t_player	player;
+	int			height_mini;
 	int			height;
 	int			width;
+	int			width_mini;
 	void		*mlx;
 	void		*win;
 	int			column;
