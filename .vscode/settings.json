@@ -6,6 +6,9 @@
         "string.h": "c",
         "stdio.h": "c",
         "stdlib.h": "c",
-        "structs.h": "c"
+        "structs.h": "c",
+        "array": "c",
+        "string_view": "c",
+        "span": "c"
     }
 }

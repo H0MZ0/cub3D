@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:51:24 by hakader           #+#    #+#             */
-/*   Updated: 2025/07/17 14:32:20 by hakader          ###   ########.fr       */
+/*   Updated: 2025/07/17 20:15:09 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,9 @@ typedef struct s_cub
 	int			line_len;
 	int			endian;
 	int			bpp;
+	int			minimap_size;
+	int			start_x;
+	int			start_y;
 }	t_cub;
 
 #endif

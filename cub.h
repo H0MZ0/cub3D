@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 10:17:03 by hakader           #+#    #+#             */
-/*   Updated: 2025/07/17 14:31:34 by hakader          ###   ########.fr       */
+/*   Updated: 2025/07/17 20:24:21 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@
 # define KEY_S 115
 # define KEY_A 97
 # define ON_DESTROY 17
-# define KEY_SPACE    32
+# define KEY_SPACE 32
+#define MINIMAP_VIEW 15
 
 # include "functions/structs.h"
 # include <math.h>
