@@ -6,17 +6,17 @@
 /*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:51:24 by hakader           #+#    #+#             */
-/*   Updated: 2025/07/15 17:03:22 by hakader          ###   ########.fr       */
+/*   Updated: 2025/07/17 14:32:20 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
-# define MOVE_SPEED 0.01
-# define ROTATE_SPEED 0.01
+# define MOVE_SPEED 0.001
+# define ROTATE_SPEED 0.001
 # define FOV 90
-# define MINI_SIZE 30
+# define MINI_SIZE 15
 # define MINI_MAP_RADIUS 5
 
 #ifndef M_PI
@@ -102,8 +102,10 @@ typedef struct s_player {
 	double y;
 	int move_forward;
 	int move_back;
-	int move_left;
 	int move_right;
+	int move_left;
+	int rotate_right;
+	int rotate_left;
 }	t_player;
 
 typedef struct s_cub

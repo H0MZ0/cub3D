@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 16:03:17 by hakader           #+#    #+#             */
-/*   Updated: 2025/07/15 17:04:13 by hakader          ###   ########.fr       */
+/*   Updated: 2025/07/17 14:56:18 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,22 +83,28 @@ void	draw_minimap(t_cub *cub)
 	cub->minimap_img = mlx_new_image(cub->mlx, cub->column * MINI_SIZE, cub->row * MINI_SIZE);
 	cub->minimap_data = mlx_get_data_addr(cub->minimap_img,
 		&cub->bpp, &cub->line_len, &cub->endian);
-	var.y = -1;
-	while (cub->game.jungle[++var.y])
+	var.y = 0;
+	while (cub->game.jungle[var.y])
 	{
-		var.x = -1;
-		while (cub->game.jungle[var.y][++var.x])
+		var.x = 0;
+		while (cub->game.jungle[var.y][var.x])
 		{
 			if (get_color(cub, &var))
 				continue ;
-			var.dy = -1;
-			while (var.dy++ < MINI_SIZE)
+			var.dy = 0;
+			while (var.dy < MINI_SIZE)
 			{
-				var.dx = -1;
-				while (var.dx++ < MINI_SIZE)
+				var.dx = 0;
+				while (var.dx < MINI_SIZE)
+				{
 					put_pixel(cub, var.x * MINI_SIZE + var.dx, var.y * MINI_SIZE + var.dy, var.color);
+					var.dx++;
+				}
+				var.dy++;
 			}
+			var.x++;
 		}
+		var.y++;
 	}
 	draw_player(cub);
 	draw_direction_line(cub);

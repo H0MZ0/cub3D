@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:48:19 by hakader           #+#    #+#             */
-/*   Updated: 2025/07/15 17:02:42 by hakader          ###   ########.fr       */
+/*   Updated: 2025/07/17 11:35:47 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,10 @@ int	key_press(int keycode, t_cub *cub)
 		cub->player.move_left = 1;
 	if (keycode == KEY_D)
 		cub->player.move_right = 1;
+	if (keycode == KEY_RIGHT)
+		cub->player.rotate_right = 1;
+	if (keycode == KEY_LEFT)
+		cub->player.rotate_left = 1;
 	return (0);
 }
 
@@ -76,6 +80,10 @@ int	key_release(int keycode, t_cub *cub)
 		cub->player.move_left = 0;
 	if (keycode == KEY_D)
 		cub->player.move_right = 0;
+	if (keycode == KEY_RIGHT)
+		cub->player.rotate_right = 0;
+	if (keycode == KEY_LEFT)
+		cub->player.rotate_left = 0;
 	return (0);
 }
 
@@ -96,9 +104,19 @@ int	game_loop(t_cub *cub)
 		new_x -= dir_x * MOVE_SPEED;
 		new_y -= dir_y * MOVE_SPEED;
 	}
-	if (cub->player.move_left)
-		cub->axis.angle -= ROTATE_SPEED;
 	if (cub->player.move_right)
+	{
+		new_x -= dir_y * MOVE_SPEED;
+		new_y += dir_x * MOVE_SPEED;
+	}
+	if (cub->player.move_left)
+	{
+		new_x += dir_y * MOVE_SPEED;
+		new_y -= dir_x * MOVE_SPEED;
+	}
+	if (cub->player.rotate_left)
+		cub->axis.angle -= ROTATE_SPEED;
+	if (cub->player.rotate_right)
 		cub->axis.angle += ROTATE_SPEED;
 	// Normalize angle to [0, 2π]
 	// if (cub->axis.angle < 0)
