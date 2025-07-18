@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:51:24 by hakader           #+#    #+#             */
-/*   Updated: 2025/07/18 06:54:56 by hakader          ###   ########.fr       */
+/*   Updated: 2025/07/18 11:47:57 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,22 +124,22 @@ typedef struct s_cub
 	t_textures	textures;
 	t_image		tx;
 	t_player	player;
-	int			height_mini;
-	int			height;
-	int			width;
-	int			width_mini;
 	void		*mlx;
 	void		*win;
-	int			column;
-	int			row;
 	void		*minimap_img;
 	char		*minimap_data;
+	int			minimap_size;
+	int			height_mini;
+	int			width_mini;
+	int			height;
+	int			width;
+	int			start_x;
+	int			start_y;
+	int			column;
+	int			row;
 	int			line_len;
 	int			endian;
 	int			bpp;
-	int			minimap_size;
-	int			start_x;
-	int			start_y;
 }	t_cub;
 
 #endif
