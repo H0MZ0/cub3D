@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:51:24 by hakader           #+#    #+#             */
-/*   Updated: 2025/07/17 20:15:09 by hakader          ###   ########.fr       */
+/*   Updated: 2025/07/18 06:54:56 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,13 @@ typedef	struct s_var
 	int		k;
 	int		l;
 	int		color;
+	int		minimap_size;
+	int		start_x;
+	int		start_y;
+	int		map_x;
+	int		map_y;
+	double		px;
+	double		py;
 }	t_var;
 
 
